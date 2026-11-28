@@ -1,1 +1,107 @@
-<h1>Admin Products Page</h1>
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Manage Products | Speedwagon</title>
+
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<main class="page-shell">
+
+    <nav class="topbar" aria-label="Admin navigation">
+        <a class="brand" href="/">
+            <span class="brand-mark">S</span>
+            <span>Speedwagon</span>
+        </a>
+
+        <div class="nav-links">
+            <a href="/shop">Shop</a>
+            <a href="/admin">Dashboard</a>
+            <a href="/admin/products">Products</a>
+            <a href="/admin/orders">Orders</a>
+            <a href="/admin/inventory">Inventory</a>
+        </div>
+    </nav>
+
+    <section class="page-heading">
+
+        <h1>Manage <em>Products</em></h1>
+
+        <a class="btn" href="/admin/products/new">
+            Add new product
+        </a>
+    </section>
+
+    <section class="admin-table-section">
+
+        <p th:if="${#lists.isEmpty(products)}">
+            No products found.
+        </p>
+
+        <table class="admin-table"
+               th:if="${not #lists.isEmpty(products)}">
+
+            <thead>
+            <tr>
+                <th>Product ID</th>
+                <th>Name</th>
+                <th>Category</th>
+                <th>Price</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            <tr th:each="product : ${products}">
+
+                <td th:text="${product.id}">
+                    Product ID
+                </td>
+
+                <td th:text="${product.name}">
+                    Product name
+                </td>
+
+                <td th:text="${product.category}">
+                    Category
+                </td>
+
+                <td>
+                    $<span th:text="${product.price}">0.00</span>
+                </td>
+
+                <td>
+                    <a class="btn"
+                       th:href="@{/admin/products/edit(id=${product.id})}">
+                        Edit
+                    </a>
+
+                    <form action="/admin/products/delete"
+                          method="post"
+                          style="display: inline;">
+
+                        <input type="hidden"
+                               name="productId"
+                               th:value="${product.id}">
+
+                        <button type="submit" class="btn">
+                            Delete
+                        </button>
+                    </form>
+                </td>
+
+            </tr>
+            </tbody>
+
+        </table>
+
+    </section>
+
+</main>
+
+</body>
+</html>
