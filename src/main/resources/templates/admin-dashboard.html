@@ -1,1 +1,104 @@
-<h1>Admin Dashboard</h1>
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard | Speedwagon</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<main class="page-shell">
+
+    <nav class="topbar">
+        <a class="brand" href="/">
+            <span class="brand-mark">S</span>
+            <span>Speedwagon</span>
+        </a>
+
+        <div class="nav-links">
+            <a href="/shop">Shop</a>
+            <a href="/admin">Dashboard</a>
+            <a href="/admin/products">Products</a>
+            <a href="/admin/orders">Orders</a>
+            <a href="/admin/inventory">Inventory</a>
+        </div>
+    </nav>
+
+    <section class="page-heading">
+        <h1>Admin <em>Dashboard</em></h1>
+    </section>
+
+    <section class="admin-stats">
+        <div class="stat-card">
+            <span>Total Products</span>
+            <strong th:text="${totalProducts}">0</strong>
+        </div>
+
+        <div class="stat-card">
+            <span>Pending Orders</span>
+            <strong th:text="${pendingOrders}">0</strong>
+        </div>
+
+        <div class="stat-card">
+            <span>Low Stock Items</span>
+            <strong th:text="${lowStockItems}">0</strong>
+        </div>
+
+        <div class="stat-card">
+            <span>Total Revenue</span>
+            <strong>$<span th:text="${totalRevenue}">0.00</span></strong>
+        </div>
+    </section>
+
+    <section class="admin-actions">
+        <h2>Quick Actions</h2>
+
+        <div class="admin-links">
+            <a class="admin-link-card" href="/admin/products">
+                <strong>Manage Products</strong>
+            </a>
+
+            <a class="admin-link-card" href="/admin/orders">
+                <strong>Manage Orders</strong>
+            </a>
+
+            <a class="admin-link-card" href="/admin/inventory">
+                <strong>View Inventory</strong>
+            </a>
+        </div>
+    </section>
+
+    <section class="admin-table-section">
+        <h2>Recent Orders</h2>
+
+        <p th:if="${#lists.isEmpty(recentOrders)}">
+            No recent orders found.
+        </p>
+
+        <table class="admin-table"
+               th:if="${not #lists.isEmpty(recentOrders)}">
+            <thead>
+            <tr>
+                <th>Order ID</th>
+                <th>Customer</th>
+                <th>Status</th>
+                <th>Total</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            <tr th:each="order : ${recentOrders}">
+                <td th:text="${order.id}">Order ID</td>
+                <td th:text="${order.customerName}">Customer</td>
+                <td th:text="${order.status}">Pending</td>
+                <td>$<span th:text="${order.total}">0.00</span></td>
+            </tr>
+            </tbody>
+        </table>
+    </section>
+
+</main>
+
+</body>
+</html>
