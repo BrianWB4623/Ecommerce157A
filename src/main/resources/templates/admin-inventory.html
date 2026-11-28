@@ -1,1 +1,98 @@
-<h1>Admin Inventory Page</h1>
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Inventory | Speedwagon</title>
+
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<main class="page-shell">
+
+    <nav class="topbar" aria-label="Admin navigation">
+        <a class="brand" href="/">
+            <span class="brand-mark">S</span>
+            <span>Speedwagon</span>
+        </a>
+
+        <div class="nav-links">
+            <a href="/shop">Shop</a>
+            <a href="/admin">Dashboard</a>
+            <a href="/admin/products">Products</a>
+            <a href="/admin/orders">Orders</a>
+            <a href="/admin/inventory">Inventory</a>
+        </div>
+    </nav>
+
+    <section class="page-heading">
+
+        <h1>Manage <em>Inventory</em></h1>
+    </section>
+
+    <section class="admin-table-section">
+
+        <p th:if="${#lists.isEmpty(inventoryItems)}">
+            No inventory records found.
+        </p>
+
+        <table class="admin-table"
+               th:if="${not #lists.isEmpty(inventoryItems)}">
+
+            <thead>
+            <tr>
+                <th>Product ID</th>
+                <th>Product Name</th>
+                <th>In-Stock Quantity</th>
+                <th>Update Quantity</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            <tr th:each="item : ${inventoryItems}">
+
+                <td th:text="${item.productId}">
+                    Product ID
+                </td>
+
+                <td th:text="${item.productName}">
+                    Product name
+                </td>
+
+                <td th:text="${item.inStockQuantity}">
+                    0
+                </td>
+
+                <td>
+                    <form action="/admin/inventory/update"
+                          method="post">
+
+                        <input type="hidden"
+                               name="productId"
+                               th:value="${item.productId}">
+
+                        <input type="number"
+                               name="inStockQuantity"
+                               min="0"
+                               th:value="${item.inStockQuantity}"
+                               required>
+
+                        <button type="submit" class="btn">
+                            Update
+                        </button>
+                    </form>
+                </td>
+
+            </tr>
+            </tbody>
+
+        </table>
+
+    </section>
+
+</main>
+
+</body>
+</html>
