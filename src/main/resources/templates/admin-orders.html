@@ -1,1 +1,130 @@
-<h1>Admin Orders Page</h1>
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Manage Orders | Speedwagon</title>
+
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<main class="page-shell">
+
+    <nav class="topbar" aria-label="Admin navigation">
+        <a class="brand" href="/">
+            <span class="brand-mark">S</span>
+            <span>Speedwagon</span>
+        </a>
+
+        <div class="nav-links">
+            <a href="/shop">Shop</a>
+            <a href="/admin">Dashboard</a>
+            <a href="/admin/products">Products</a>
+            <a href="/admin/orders">Orders</a>
+            <a href="/admin/inventory">Inventory</a>
+        </div>
+    </nav>
+
+    <section class="page-heading">
+
+        <h1>Manage <em>Orders</em></h1>
+
+    </section>
+
+    <section class="admin-table-section">
+
+        <p th:if="${#lists.isEmpty(orders)}">
+            No orders found.
+        </p>
+
+        <table class="admin-table"
+               th:if="${not #lists.isEmpty(orders)}">
+
+            <thead>
+            <tr>
+                <th>Order ID</th>
+                <th>Customer</th>
+                <th>Order Date</th>
+                <th>Total</th>
+                <th>Status</th>
+                <th>Update</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            <tr th:each="order : ${orders}">
+
+                <td th:text="${order.id}">
+                    Order ID
+                </td>
+
+                <td th:text="${order.customerName}">
+                    Customer name
+                </td>
+
+                <td th:text="${order.orderDate}">
+                    Order date
+                </td>
+
+                <td>
+                    $<span th:text="${order.total}">0.00</span>
+                </td>
+
+                <td th:text="${order.status}">
+                    Pending
+                </td>
+
+                <td>
+                    <form action="/admin/orders/update"
+                          method="post">
+
+                        <input type="hidden"
+                               name="orderId"
+                               th:value="${order.id}">
+
+                        <select name="status">
+                            <option value="PENDING"
+                                    th:selected="${order.status == 'PENDING'}">
+                                Pending
+                            </option>
+
+                            <option value="PROCESSING"
+                                    th:selected="${order.status == 'PROCESSING'}">
+                                Processing
+                            </option>
+
+                            <option value="SHIPPED"
+                                    th:selected="${order.status == 'SHIPPED'}">
+                                Shipped
+                            </option>
+
+                            <option value="COMPLETED"
+                                    th:selected="${order.status == 'COMPLETED'}">
+                                Completed
+                            </option>
+
+                            <option value="CANCELLED"
+                                    th:selected="${order.status == 'CANCELLED'}">
+                                Cancelled
+                            </option>
+                        </select>
+
+                        <button type="submit" class="btn">
+                            Update
+                        </button>
+                    </form>
+                </td>
+
+            </tr>
+            </tbody>
+
+        </table>
+
+    </section>
+
+</main>
+
+</body>
+</html>
