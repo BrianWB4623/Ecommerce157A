@@ -60,4 +60,5 @@ public class PageController {
     public String adminInventory() {
         return "admin-inventory";
     }
+
 }

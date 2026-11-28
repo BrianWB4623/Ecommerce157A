@@ -1,1 +1,71 @@
-<h1>Products Page</h1>
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Shop | Speedwagon</title>
+
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<main class="page-shell">
+
+    <nav class="topbar" aria-label="Main navigation">
+        <a class="brand" href="/">
+            <span class="brand-mark">S</span>
+            <span>Speedwagon</span>
+        </a>
+
+        <div class="nav-links">
+            <a href="/shop">Shop</a>
+            <a href="/cart">Cart</a>
+            <a href="/orders">Orders</a>
+            <a href="/create-account">Account</a>
+        </div>
+    </nav>
+
+    <section class="page-heading">
+
+        <h1>Available <em>Products</em></h1>
+
+    </section>
+
+    <section class="product-grid">
+
+        <p th:if="${#lists.isEmpty(products)}">
+            No products are available yet.
+        </p>
+
+        <article class="product-card" th:each="product : ${products}">
+
+            <div class="product-image">
+                Product Image
+            </div>
+
+            <h2 th:text="${product.name}">
+                Product name
+            </h2>
+
+            <p th:text="${product.description}">
+                Product description
+            </p>
+
+            <strong class="product-price">
+                $<span th:text="${product.price}">0.00</span>
+            </strong>
+
+            <a class="btn"
+               th:href="@{/product-details(id=${product.id})}">
+                View details
+            </a>
+
+        </article>
+
+    </section>
+
+</main>
+
+</body>
+</html>
