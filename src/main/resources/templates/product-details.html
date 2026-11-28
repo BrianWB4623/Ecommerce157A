@@ -1,1 +1,88 @@
-<h1>Product Details Page</h1>
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Product Details | Speedwagon</title>
+
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<main class="page-shell">
+
+    <nav class="topbar" aria-label="Main navigation">
+        <a class="brand" href="/">
+            <span class="brand-mark">S</span>
+            <span>Speedwagon</span>
+        </a>
+
+        <div class="nav-links">
+            <a href="/shop">Shop</a>
+            <a href="/cart">Cart</a>
+            <a href="/orders">Orders</a>
+            <a href="/create-account">Account</a>
+        </div>
+    </nav>
+    <section class="details-layout">
+
+        <div class="details-image">
+            Product Image
+        </div>
+
+        <div class="details-card">
+
+            <p class="eyebrow">Product details</p>
+
+            <h1 th:text="${product.name}">
+                Product name
+            </h1>
+
+            <p class="detail-category"
+               th:text="${product.category}">
+                Product category
+            </p>
+
+            <p class="detail-description"
+               th:text="${product.description}">
+                Product description
+            </p>
+
+            <strong class="detail-price">
+                $<span th:text="${product.price}">0.00</span>
+            </strong>
+
+            <form class="cart-form"
+                  action="/cart/add"
+                  method="post">
+
+                <input type="hidden"
+                       name="productId"
+                       th:value="${product.id}">
+
+                <label for="quantity">Quantity</label>
+
+                <input id="quantity"
+                       name="quantity"
+                       type="number"
+                       value="1"
+                       min="1"
+                       required>
+
+                <button type="submit" class="btn">
+                    Add to cart
+                </button>
+            </form>
+
+            <a class="back-link" href="/shop">
+                ← Back to products
+            </a>
+
+        </div>
+
+    </section>
+</main>
+
+</body>
+</html>
